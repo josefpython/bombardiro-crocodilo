@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown with Password</title>
+    <title>BOMBA!</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -31,14 +31,15 @@
 </head>
 <body>
     <div id="countdown"></div>
-    <input type="password" id="password" placeholder="Enter password">
-    <button onclick="checkPassword()">Submit</button>
+    <input type="password" id="password" placeholder="Zadejte kód">
+    <button onclick="checkPassword()">Zneškodnit</button>
     <div id="message"></div>
 
     <script>
-        const correctPassword = "TvojeTlustaMama";
+        const correctPassword = "KrokodylJeronym";
         const countdownElement = document.getElementById("countdown");
         const messageElement = document.getElementById("message");
+        let timer;
         
         function updateCountdown() {
             const targetDate = new Date("March 23, 2025 07:00:00").getTime();
@@ -51,24 +52,25 @@
                 return;
             }
             
-            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const hours = Math.floor(timeLeft / (1000 * 60 * 60));
             const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
             
-            countdownElement.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            countdownElement.textContent = `${hours}h ${minutes}m ${seconds}s`;
         }
         
-        const timer = setInterval(updateCountdown, 1000);
+        timer = setInterval(updateCountdown, 1000);
         updateCountdown();
 
         function checkPassword() {
             const inputPassword = document.getElementById("password").value;
             if (inputPassword === correctPassword) {
-                messageElement.textContent = "Success!";
+                messageElement.textContent = "[ÚSPĚCH] KÓD OK. ODPOČET ZASTAVEN.";
                 messageElement.style.color = "green";
+                countdownElement.textContent = "*** *** ***";
+                clearInterval(timer);
             } else {
-                messageElement.textContent = "Error: Incorrect password.";
+                messageElement.textContent = "[CHYBA] ZADANÝ KÓD NENÍ SPRÁVNÝ.";
                 messageElement.style.color = "red";
             }
         }
